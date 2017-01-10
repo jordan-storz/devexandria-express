@@ -6,7 +6,7 @@ module.exports = (function(R) {
   const isoAttrs = obj => R.pick(['attributes'], addAttrs(obj));
 
   const pickId = R.pick(['id']);
-  const addType = R.assoc('type', 'bookmark');
+  const addType = R.assoc('type', 'tag');
 
 
   const transform = obj => addType(R.merge(isoAttrs(obj), pickId(obj)));

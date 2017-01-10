@@ -1,23 +1,22 @@
 const express = require('express');
 const router = express.Router();
 
-const Bookmark = require('../models/bookmark');
-const serializeBookmarkArray = require('../serializers/bookmark-array');
-const serializeBookmarkSingle = require('../serializers/bookmark-single');
+const Tag = require('../models/tag');
+const serializeTagArray = require('../serializers/tag-array');
 
 router.get('/', function(req, res, next) {
-  Bookmark.findAll().then(result => {
-    res.json(
-      serializeBookmarkArray(result)
-    )
+  Tag.findAll().then(result => {
+    res.json({
+      data: serializeTagArray(result)
+    });
   });
 });
 
 router.get('/:id', function(req, res, next) {
-  Bookmark.findOne(req.params.id).then(result => {
-    res.json(
-      serializeBookmarkSingle(result)
-    );
+  Tag.findOne(req.params.id).then(result => {
+    res.json({
+      data: serializeTagSingle(result)
+    });
   });
 });
 
