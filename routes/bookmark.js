@@ -5,13 +5,16 @@ const bookmarksRep = require('../repos/bookmarks');
 const bookmarkdb = require('../models/bookmark');
 
 router.get('/', function(req, res, next) {
-  
-  bookmarksRep.bookmarksWithTags().then(bookmarks => {
+
+  bookmarksRep.allWithTags().then(bookmarks => {
     return res.json(bookmarks);
   });
 });
 
 router.get('/:id', function(req, res, next) {
+  bookmarksRep.oneWithTags(req.params.id).then(bookmark => {
+    return res.json(bookmark);
+  });
 });
 
 router.post('/', function (req, res, next) {
