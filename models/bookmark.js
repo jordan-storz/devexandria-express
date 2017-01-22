@@ -1,4 +1,3 @@
-const R = require('ramda');
 const knex = require('../db/connection');
 
 module.exports = {
@@ -17,5 +16,11 @@ module.exports = {
   },
   delete: (id) => {
     return knex('bookmark').where('id', id).del();
+  },
+  findByTagIds: (tagIds) => {
+    return knex('bookmark')
+      .join('bookmark_tag', 'bookmark_tag.bookmark_id', 'bookmark.id')
+      .join('tag', 'bookmark_tag.tag_id', 'tag.id')
+      .whereIn('tag.id', tagIds);
   }
 }

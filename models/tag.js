@@ -22,5 +22,9 @@ module.exports = {
     return knex('tag')
       .join('bookmark_tag', 'tag.id', 'bookmark_tag.tag_id')
       .where('bookmark_tag.bookmark_id', bookmarkId);
+  },
+  findByNames: (names) => {
+    console.log(names);
+    return knex('tag').whereIn('name', names);
   }
 }

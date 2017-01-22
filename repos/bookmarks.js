@@ -8,15 +8,27 @@ const serializeTagArray = require('../serializers/tag-array');
 module.exports = {
   allWithTags: function(){
     return BookmarkDB.findAll().then(bookmarks => {
-      return this.sideloadTags(bookmarks);
+      return R.pipe(
+        serializeBookmarkArray,
+        this.sideloadTags
+      )(bookmarks);
     });
   },
   oneWithTags: function(id) {
-    console.log(id);
-    console.log(id);
     return BookmarkDB.findOne(id).then(bookmarks => {
-      return this.sideloadTags(bookmarks).then(R.head);
+      return R.pipe(
+        serializeBookmarkArray,
+        this.sideloadTags
+      )(bookmarks).then(R.head);
     })
+  },
+  allByFilter: function(tagNames) {
+    return TagDB.findByNames(tagNames).then(tags => {
+      let tagIds = R.pluck('id', tags);
+      return BookmarkDB.findByTagIds(tagIds).then(bookmarks => {
+        return serializeBookmarkArray(bookmarks);
+      })
+    });
   },
   sideloadTags: function(bookmarks) {
     return Promise.all(bookmarks.map(bookmark => {

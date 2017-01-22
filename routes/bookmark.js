@@ -2,7 +2,18 @@ const express = require('express');
 const router = express.Router();
 
 const bookmarksRep = require('../repos/bookmarks');
-const bookmarkdb = require('../models/bookmark');
+const strToArray = require('../helpers/str-to-array');
+
+router.get('/', function(req, res, next) {
+  if (!req.query.withTags) {
+    return next();
+  } else {
+    let tags = strToArray(req.query.withTags);
+    return bookmarksRep.allByFilter(tags).then(bookmarks => {
+      return res.json(bookmarks);
+    })
+  }
+});
 
 router.get('/', function(req, res, next) {
 
