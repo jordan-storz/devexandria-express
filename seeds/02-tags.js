@@ -9,9 +9,16 @@ const tagNames = [
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
   return knex('tag').del()
+    .then(() => {
+      return knex.raw('ALTER SEQUENCE tag_id_seq RESTART WITH 34')
+    })
     .then(function () {
-      return Promise.all(tagNames.map((tagName) => {
-        return knex('tag').insert({name: tagName});
+      return Promise.all(tagNames.map((tagName, index) => {
+        return knex('tag')
+          .insert({
+            id: index + 1,
+            name: tagName
+          });
       }));
     });
 };

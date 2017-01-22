@@ -23,15 +23,6 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  return techOrNotClass(req.body.text)
-    .then(result => {
-      console.log(result);
-      res.json({msg:'received message'})
-    })
-    .catch(err => {
-      console.log(err);
-      res.json({msg:'error on our side'})
-    });
 });
 
 router.put('/:id', function(req, res, next) {
