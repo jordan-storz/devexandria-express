@@ -13,5 +13,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists('bookmark');
+  return knex.raw('DROP TABLE IF EXISTS bookmark CASCADE');
 };
