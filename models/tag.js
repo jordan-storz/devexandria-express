@@ -17,5 +17,10 @@ module.exports = {
   },
   delete: (id) => {
     return knex('tag').where('id', id).del();
+  },
+  findByBookmark: (bookmarkId) => {
+    return knex('tag')
+      .join('bookmark_tag', 'tag.id', 'bookmark_tag.tag_id')
+      .where('bookmark_tag.bookmark_id', bookmarkId);
   }
 }
